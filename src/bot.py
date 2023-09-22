@@ -1,5 +1,4 @@
 import os
-import random
 import discord
 from dotenv import load_dotenv
 
@@ -16,7 +15,6 @@ async def on_ready():
     f'{guild.name}(id: {guild.id})'
   )
 
-
 @client.event
 async def on_member_join(member):
   await member.create_dm()
@@ -28,6 +26,7 @@ async def on_member_join(member):
 async def on_message(message):
   if message.author == client.user:
     return
+  
   if not message.content.startswith('!subot'):
     return
 
