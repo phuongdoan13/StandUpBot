@@ -61,6 +61,7 @@ async def standup_task():
 1. What have you done ?
 2. What are you planning to work on today ?
 3. Any blockers ?
+Please use `!subot standup <message>` to respond.
 """
 		)
 	else:
