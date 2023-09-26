@@ -9,6 +9,7 @@ from helper import SecondToDesiredHour
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 GUILD_ID = int(os.getenv("DISCORD_GUILD_ID"))
+target_hour = int(os.getenv("HOUR_TO_SEND_MESSAGE"))
 client = discord.Client(intents=discord.Intents.all())
 
 @client.event
@@ -38,7 +39,6 @@ async def on_message(message):
   response = 'I am a bot that can do many things. Many new features are coming!'
   await message.channel.send(response)
 
-target_hour = 18
 @tasks.loop(hours=24)
 async def standup_task():
 	now = dt.datetime.now()
