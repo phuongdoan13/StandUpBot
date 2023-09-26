@@ -4,7 +4,9 @@ from discord.ext import tasks
 import asyncio
 import datetime as dt
 from dotenv import load_dotenv
+
 from helper import SecondToDesiredHour
+from notion import NotionApi
 
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -30,14 +32,23 @@ async def on_member_join(member):
 
 @client.event
 async def on_message(message):
-  if message.author == client.user:
-    return
+	if message.author == client.user:
+		return
   
-  if not message.content.startswith('!subot'):
-    return
-
-  response = 'I am a bot that can do many things. Many new features are coming!'
-  await message.channel.send(response)
+	if not message.content.startswith('!subot'):
+		return
+	
+	response = "Welcome, try `!subot standup <message>`	to update your standup page on Notion."
+	
+	if(message.content.startswith('!subot standup')):
+		message.content = message.content.replace('!subot standup ', '')
+		status = NotionApi().updateStandupPage(str(message.content))
+		if(status == 200):
+			response = "Your standup page has been updated."
+		else:
+			response = "Something went wrong, please try again later."
+  
+	await message.channel.send(response)
 
 @tasks.loop(hours=24)
 async def standup_task():
